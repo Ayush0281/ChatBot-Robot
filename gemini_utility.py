@@ -14,13 +14,13 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 # ---------------- CHAT MODEL ----------------
 def load_chat_model():
-    return genai.GenerativeModel("gemini-pro")
+    return genai.GenerativeModel("models/gemini-2.0-flash-001")
 
 
 # ---------------- ASK ANYTHING ----------------
 def ask_anything(prompt):
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("models/gemini-2.0-flash-001")
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
@@ -31,7 +31,7 @@ def ask_anything(prompt):
 def get_embeddings(text):
     try:
         result = genai.embed_content(
-            model="models/embedding-001",
+            model="models/gemini-embedding-2-preview",
             content=text
         )
         return result["embedding"]
@@ -42,7 +42,7 @@ def get_embeddings(text):
 # ---------------- IMAGE CAPTIONING ----------------
 def generate_image_caption(image):
     try:
-        model = genai.GenerativeModel("gemini-pro-vision")
+        model = genai.GenerativeModel("models/nano-banana-pro-preview")
         response = model.generate_content(["Describe this image", image])
         return response.text
     except Exception as e:
