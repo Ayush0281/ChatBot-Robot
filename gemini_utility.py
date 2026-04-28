@@ -1,32 +1,27 @@
 import os
-from dotenv import load_dotenv
-from google import genai
+import google.generativeai as genai
 from PIL import Image
 
-# Load environment variables
-load_dotenv()
-
+# Load API key from environment
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not GOOGLE_API_KEY:
-    raise ValueError("API key not found. Please set GEMINI_API_KEY in .env file")
+    raise ValueError("API key not found. Set GEMINI_API_KEY in Streamlit Secrets.")
 
-# Create client
-client = genai.Client(api_key=GOOGLE_API_KEY)
+# Configure Gemini
+genai.configure(api_key=GOOGLE_API_KEY)
 
 
 # ---------------- CHAT MODEL ----------------
 def load_chat_model():
-    return client
+    return genai.GenerativeModel("gemini-pro")
 
 
 # ---------------- ASK ANYTHING ----------------
 def ask_anything(prompt):
     try:
-        response = client.models.generate_content(
-            model="gemini-3.1-flash-lite-preview",
-            contents=prompt
-        )
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(prompt)
         return response.text
     except Exception as e:
         return f"Error: {str(e)}"
@@ -35,11 +30,11 @@ def ask_anything(prompt):
 # ---------------- EMBEDDINGS ----------------
 def get_embeddings(text):
     try:
-        response = client.models.embed_content(
-            model="gemini-embedding-2-preview",
-            contents=text
+        result = genai.embed_content(
+            model="models/embedding-001",
+            content=text
         )
-        return response.embeddings[0].values
+        return result["embedding"]
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -47,13 +42,8 @@ def get_embeddings(text):
 # ---------------- IMAGE CAPTIONING ----------------
 def generate_image_caption(image):
     try:
-        response = client.models.generate_content(
-            model="gemini-3.1-flash-lite-preview",
-            contents=[
-                "Describe this image in detail",
-                image
-            ]
-        )
+        model = genai.GenerativeModel("gemini-pro-vision")
+        response = model.generate_content(["Describe this image", image])
         return response.text
     except Exception as e:
         return f"Error: {str(e)}"

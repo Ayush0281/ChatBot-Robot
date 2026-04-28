@@ -26,14 +26,9 @@ with st.sidebar:
     )
 
 # ---------------- LOAD CLIENT ----------------
-client = load_chat_model()
+model = load_chat_model()
 
 # ---------------- SESSION STATE ----------------
-if "chat_session" not in st.session_state:
-    st.session_state.chat_session = client.chats.create(
-        model="gemini-3.1-flash-lite-preview"
-    )
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -61,7 +56,7 @@ if selected == "ChatBot":
 
         with st.spinner("Thinking..."):
             try:
-                response = st.session_state.chat_session.send_message(user_prompt)
+                response = model.generate_content(user_prompt)
                 reply = response.text
             except Exception:
                 reply = "Something went wrong. Try again."
@@ -76,9 +71,7 @@ if selected == "ChatBot":
 
     if st.sidebar.button("Clear Chat"):
         st.session_state.messages = []
-        st.session_state.chat_session = client.chats.create(
-            model="gemini-3.1-flash-lite-preview"
-        )
+
 
 # =========================================================
 # 🖼️ IMAGE CAPTIONING
