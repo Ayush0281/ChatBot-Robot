@@ -25,10 +25,10 @@ with st.sidebar:
         default_index=0
     )
 
-# ---------------- LOAD CLIENT ----------------
+# Load model
 model = load_chat_model()
 
-# ---------------- SESSION STATE ----------------
+# Session state for chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -39,6 +39,7 @@ if selected == "ChatBot":
 
     st.title("🤖 Gemini ChatBot")
 
+    # Show chat history
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
@@ -48,7 +49,6 @@ if selected == "ChatBot":
     if user_prompt:
 
         st.chat_message("user").markdown(user_prompt)
-
         st.session_state.messages.append({
             "role": "user",
             "content": user_prompt
@@ -69,9 +69,9 @@ if selected == "ChatBot":
             "content": reply
         })
 
+    # Clear chat
     if st.sidebar.button("Clear Chat"):
         st.session_state.messages = []
-
 
 # =========================================================
 # 🖼️ IMAGE CAPTIONING

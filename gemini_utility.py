@@ -2,11 +2,11 @@ import os
 import google.generativeai as genai
 from PIL import Image
 
-# Load API key from environment
+# Load API key from environment (Streamlit Secrets or local .env)
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not GOOGLE_API_KEY:
-    raise ValueError("API key not found. Set GEMINI_API_KEY in Streamlit Secrets.")
+    raise ValueError("API key not found. Set GEMINI_API_KEY.")
 
 # Configure Gemini
 genai.configure(api_key=GOOGLE_API_KEY)
