@@ -1,6 +1,6 @@
 ﻿# 🤖 Gemini AI Chatbot (Streamlit App)
 
-🚀 **Live Demo:** https://chatbot-robot-aje2xy9qxjpf4vd5yjdacu.streamlit.app/
+🚀 **Live Demo:** https://chatbot-robot-juyhipghsat2ffhfnbuk3b.streamlit.app/
 
 An AI-powered multi-functional web application built using **Python, Streamlit, and Google Gemini API**.  
 Developed as part of a **Summer Training Project at IIT Kanpur**.
